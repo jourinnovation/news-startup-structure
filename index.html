@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which news startup structure is your team? · JOUR 3385</title>
+<style>
+:root{
+  --green:#154734; --green-2:#1E5C45; --wash:#E4EDE7;
+  --gold:#BD8B13; --gold-soft:#F6EBCB; --gold-ink:#7A5A0C;
+  --sky:#2F6F8F; --sky-soft:#DDEBF2;
+  --paper:#F7F8F5; --ink:#18221D; --muted:#56655C; --line:#D2DAD4; --white:#fff;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:17px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.bar{background:var(--green);color:var(--white);padding:12px 22px;display:flex;align-items:center;gap:14px}
+.bar .brand{font-weight:900;letter-spacing:-.01em;font-size:1.05rem}
+.bar .course{color:var(--gold-soft);font-size:.88rem}
+.bar .restart{margin-left:auto;background:none;border:0;color:#CFE0D6;text-decoration:underline;cursor:pointer;font-size:.88rem}
+
+main{max-width:720px;margin:0 auto;padding:34px 20px 80px}
+
+/* Start */
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.02;font-weight:900;letter-spacing:-.025em;margin:0 0 16px;color:var(--green)}
+.hero .stamp{display:inline-block;background:var(--gold);color:var(--white);font-weight:800;padding:4px 12px;border-radius:999px;transform:rotate(-2deg);margin-bottom:18px;font-size:.95rem}
+.hero p{font-size:1.12rem;max-width:56ch;margin:0 0 22px}
+.how{background:var(--white);border:2px solid var(--line);border-radius:14px;padding:18px 22px;margin:0 0 24px}
+.how ol{margin:6px 0 0;padding-left:22px}
+.how li{margin:4px 0}
+.field{display:block;margin:0 0 18px}
+.field span{display:block;font-weight:700;margin-bottom:4px}
+.field small{display:block;color:var(--muted);margin:-2px 0 6px;font-size:.9rem}
+input[type=text],textarea{width:100%;border:2px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--white)}
+textarea{resize:vertical;min-height:72px}
+input[type=text]:focus,textarea:focus{border-color:var(--green);outline:none}
+
+.btn{border:0;background:var(--green);color:var(--white);font-weight:800;padding:14px 26px;border-radius:999px;cursor:pointer;font-size:1.05rem}
+.btn:hover{background:var(--green-2)}
+.btn.ghost{background:transparent;color:var(--green);border:2px solid var(--green);padding:12px 22px}
+.btn.ghost:hover{background:var(--wash)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.small{padding:8px 16px;font-size:.92rem}
+
+/* Question */
+.progress{display:flex;align-items:center;gap:14px;margin-bottom:26px;font-weight:700;color:var(--muted);font-size:.92rem}
+.track{flex:1;height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+.fill{height:100%;background:var(--gold);border-radius:999px;transition:width .4s ease}
+.q h2{font-size:clamp(1.7rem,4.4vw,2.4rem);line-height:1.1;font-weight:900;letter-spacing:-.02em;margin:0 0 12px}
+.talk{display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border-radius:12px;padding:10px 14px;margin:0 0 22px;font-size:.98rem}
+.talk b{color:var(--gold-ink);white-space:nowrap}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ans{position:relative;text-align:left;border:3px solid var(--line);background:var(--white);border-radius:16px;padding:18px 18px 18px 58px;cursor:pointer;font-weight:700;font-size:1.04rem;line-height:1.3;min-height:92px;transition:transform .12s ease,border-color .12s ease}
+.ans:hover{border-color:var(--green);transform:translateY(-2px)}
+.ans .key{position:absolute;left:16px;top:16px;width:30px;height:30px;border-radius:50%;border:2.5px solid var(--line);display:grid;place-items:center;font-size:.85rem;color:var(--muted)}
+.ans[aria-checked=true]{border-color:var(--green);background:var(--wash)}
+.ans[aria-checked=true] .key{background:var(--green);border-color:var(--green);color:var(--white)}
+.answers.picked .ans[aria-checked=false]{opacity:.6}
+
+.why{margin-top:20px;border-left:6px solid var(--green);background:var(--white);border-radius:0 14px 14px 0;padding:16px 20px;animation:pop .35s ease}
+.why h3{margin:0 0 4px;font-size:1rem;color:var(--green)}
+.why p{margin:0;font-family:var(--serif);font-size:1.05rem;line-height:1.55}
+.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:26px}
+.linkbtn{background:none;border:0;color:var(--green);text-decoration:underline;cursor:pointer;font-size:.95rem;padding:0}
+
+/* Result */
+.reveal{text-align:center;padding:10px 0 6px}
+.reveal .pre{font-weight:800;color:var(--muted);margin:0 0 10px}
+.badge{width:150px;height:150px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;font-size:4.2rem;color:var(--white);box-shadow:0 0 0 8px var(--white),0 0 0 11px currentColor;animation:spin-in .8s cubic-bezier(.2,.9,.25,1.2)}
+.reveal h1{font-size:clamp(2.4rem,7vw,4rem);line-height:1;font-weight:900;letter-spacing:-.03em;margin:0 0 8px}
+.reveal .structure{font-weight:800;font-size:1.1rem;margin:0 0 16px}
+.reveal .blurb{font-family:var(--serif);font-size:1.2rem;line-height:1.55;max-width:56ch;margin:0 auto}
+.t-N{--c:var(--green);--cs:var(--wash)} .t-F{--c:var(--gold);--cs:var(--gold-soft)} .t-T{--c:var(--sky);--cs:var(--sky-soft)}
+.t-N .badge,.t-F .badge,.t-T .badge{background:var(--c);color:var(--c)}
+.reveal h1{color:var(--c)}
+
+.mix{background:var(--white);border:2px solid var(--line);border-radius:16px;padding:18px 22px;margin:30px 0}
+.mix h3{margin:0 0 12px;font-size:1.05rem}
+.row{display:grid;grid-template-columns:130px 1fr 48px;gap:10px;align-items:center;margin:8px 0;font-weight:700;font-size:.95rem}
+.row .tr{height:16px;background:var(--line);border-radius:999px;overflow:hidden}
+.row .fl{height:100%;border-radius:999px;background:var(--c);transition:width 1s ease .5s}
+.row .pc{text-align:right;font-variant-numeric:tabular-nums}
+.close{margin:12px 0 0;font-size:.95rem;color:var(--muted)}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 14px}
+.box{border-radius:16px;padding:18px 20px;background:var(--white);border:2px solid var(--line)}
+.box h3{margin:0 0 8px;font-size:1.05rem}
+.box ul{margin:0;padding-left:20px}
+.box li{margin:4px 0}
+.box.gain{border-color:var(--c);background:var(--cs)}
+.like{font-family:var(--serif);font-size:1.05rem}
+.section-h{font-size:1.6rem;font-weight:900;letter-spacing:-.02em;margin:38px 0 6px;color:var(--green)}
+.section-p{margin:0 0 18px;color:var(--muted)}
+.agree{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.agree button{border:2.5px solid var(--line);background:var(--white);border-radius:999px;padding:9px 18px;font-weight:700;cursor:pointer}
+.agree button[aria-pressed=true]{border-color:var(--green);background:var(--green);color:var(--white)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.msg{min-height:1.4em;color:var(--green);font-size:.92rem;margin-top:8px}
+details.recap{margin-top:30px;background:var(--white);border:2px solid var(--line);border-radius:14px;padding:12px 18px}
+details.recap summary{cursor:pointer;font-weight:800}
+details.recap ol{padding-left:22px}
+details.recap li{margin:8px 0}
+details.recap .a{color:var(--muted)}
+.src{font-size:.85rem;color:var(--muted);margin-top:34px}
+#print-record{display:none}
+
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spin-in{from{transform:scale(.2) rotate(-200deg);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:620px){
+  .answers,.cols{grid-template-columns:1fr}
+  .row{grid-template-columns:100px 1fr 44px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+@media print{
+  .bar,main{display:none !important}
+  #print-record{display:block;font-family:var(--serif);font-size:11pt;line-height:1.4}
+  #print-record h1{font-size:18pt;color:var(--green);margin:0 0 4pt}
+  #print-record h2{font-size:13pt;color:var(--green);margin:14pt 0 4pt;border-bottom:1px solid #999}
+  #print-record p{margin:2pt 0 6pt}
+  #print-record .k{font-family:var(--display);font-size:9pt;color:#555;display:block}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <span class="brand">Startup Structure Quiz</span>
+  <span class="course">JOUR 3385</span>
+  <button class="restart" id="restart" hidden>Start over</button>
+</header>
+<main id="app" aria-live="polite"></main>
+<div id="print-record"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY = "startup-structure-quiz-v1";
+
+var TYPES = {
+  N:{name:"The Public Trust", emoji:"🏛️", structure:"Nonprofit (501(c)(3))",
+     blurb:"Your team wants the community, not the founders, to own what you build. You’re drawn to grants, tax-deductible gifts and a public promise that nobody is getting rich off the news.",
+     gain:["Tax-exempt status and tax-deductible donations","Eligibility for most foundation grants","A visible signal of goodwill: no one “owns” the outlet"],
+     give:["Founder control. A board makes key strategic decisions on the public’s behalf","The option to sell. If you dissolve, assets go to another nonprofit","Candidate endorsements, plus tight limits on lobbying","Easy ad revenue. A big ad share has historically raised IRS questions"],
+     like:"Block Club Chicago, a 501(c)(3) whose editor says going nonprofit told readers no one could get rich off the outlet.",
+     verify:["Do the foundations you’re counting on require 501(c)(3) status?","What is the IRS’s current view on advertising revenue for nonprofit news?","Who would serve on your board, and what would they control?"]},
+  F:{name:"The Independent Owner", emoji:"🔑", structure:"For-profit (LLC, co-op, PBC…)",
+     blurb:"Your team wants to steer the ship. You’d rather earn money from readers and advertisers, keep the door open to investors and a future sale, and make your own calls — including on endorsements.",
+     gain:["Full decision-making control for the owners","The ability to take investment and sell the business","Freedom to endorse candidates and lobby"],
+     give:["Tax exemption","Easy access to foundation grants (often only through a fiscal sponsor)","Tax-deductible gifts, unless a fiscal sponsor handles them for a fee"],
+     like:"The PLUG, a for-profit LLC, and IndyWeek, which stays for-profit partly so it can endorse candidates.",
+     verify:["Which for-profit form fits: LLC, co-op, public benefit corporation or something else?","What would an investor expect in return, and when?","Is a fiscal sponsor available for any grants or donations you still want?"]},
+  T:{name:"The Test Kitchen", emoji:"🧪", structure:"Keep testing (fiscal sponsor)",
+     blurb:"Your team isn’t ready to lock in a structure, and that’s a legitimate call. You want to prove your model first, accept tax-deductible donations through a fiscal sponsor, and decide once you have evidence.",
+     gain:["A fast launch without incorporating as a nonprofit","Tax-deductible donations through a sponsor","Bookkeeping help, and sometimes more services","Time to learn what your venture actually needs"],
+     give:["A cut of every donation, usually at least 5–10%","Some independence, since you work under the sponsor’s rules","Certainty. You’ll still have to choose eventually"],
+     like:"Detour Media in Detroit, an LLC whose founder found the sponsor’s fee cheaper than running a nonprofit herself.",
+     verify:["Which fiscal sponsors would take you, and what do they charge?","Will your target funders give to a fiscally sponsored project?","What evidence would make you commit, and by when?"]}
+};
+
+var Q = [
+  {q:"Real talk: who should have the final say on big decisions?",
+   talk:"Picture a disagreement about the venture’s direction. Who settles it?",
+   a:[["Us, the founders",{F:2}],["A board that represents our community",{N:2}],["Our readers, through a formal role",{N:1,F:1}],["We haven’t figured that out yet",{T:2}]],
+   why:"A nonprofit is owned by the public, represented by its board, so the board makes key strategic decisions. In a for-profit, the owners decide. Some for-profit forms, like co-ops, spread ownership among members."},
+  {q:"Five years from now, someone offers to buy your venture. You…",
+   talk:"Would selling feel like a win or a betrayal?",
+   a:[["Sell. We built it, we can cash out",{F:2}],["Pass. It belongs to the community",{N:2}],["It depends on who’s buying",{F:1,T:1}],["We’d rather hand it to the next class of students",{N:1,T:1}]],
+   why:"Nonprofits can’t be sold. If one dissolves, its assets must go to another nonprofit. A for-profit can be sold to anyone at any time."},
+  {q:"Where’s your first real money most likely to come from?",
+   talk:"Look at your actual revenue model, not your dream one.",
+   a:[["Foundation grants",{N:2,T:1}],["Investors",{F:2}],["Readers: memberships and small donations",{N:1,T:1}],["Local ads and sponsorships",{F:2}]],
+   why:"Foundations generally give to nonprofits, though a for-profit may qualify through a fiscal sponsor. Investors need a way to sell their share eventually, which usually means for-profit."},
+  {q:"A local donor will give you $5,000, but only if it’s tax-deductible.",
+   talk:"How badly do you need this kind of money?",
+   a:[["Easy. We’d be a 501(c)(3)",{N:2}],["We’d run it through a fiscal sponsor and pay the fee",{T:2}],["We’d pass and earn it from readers and advertisers",{F:2}]],
+   why:"Donors generally prefer nonprofits for the tax deduction. A fiscal sponsor can accept deductible gifts for a project of any structure, usually keeping at least 5–10%."},
+  {q:"It’s election season. Readers want to know who you endorse for city council.",
+   talk:"Is an endorsement a public service or a conflict for your outlet?",
+   a:[["We’d endorse. That’s a service",{F:2}],["We’d explain the race but not pick winners",{N:2}],["We’d need to argue about this first",{T:1}]],
+   why:"Nonprofits can’t endorse candidates and can do only limited lobbying tied to their mission. IndyWeek stays for-profit partly so it can make election endorsements."},
+  {q:"How much paperwork and governance are you up for?",
+   talk:"Be honest about your team’s time and patience.",
+   a:[["Bring on the board meetings",{N:2}],["As little as possible. We want to report",{F:1,T:1}],["Some, once we know this thing works",{T:2}]],
+   why:"Running a nonprofit takes real labor. Detour Media’s founder found that her fiscal sponsor’s 5% fee cost less than the time and accounting it would take to run a nonprofit herself."},
+  {q:"What do you want your structure to tell your community?",
+   talk:"Think about who you serve and what they already believe about media.",
+   a:[["Nobody’s getting rich off this",{N:2}],["We’re an independent local business",{F:2}],["We’re trying something. Help us figure it out",{T:2}]],
+   why:"Giving up legal control can send a strong message. Block Club Chicago’s editor said going nonprofit conveyed goodwill that would have been hard to show as a for-profit."},
+  {q:"An investor offers seed money for a 20% stake.",
+   talk:"What would you be giving up, and what would you get?",
+   a:[["Yes. That’s how we grow",{F:2}],["No one should own a piece of our mission",{N:2}],["Maybe later, once we’ve proven demand",{T:1,F:1}]],
+   why:"Investors expect an “exit,” a way to sell their share later. To attract them, a news organization probably needs to be for-profit."},
+  {q:"How sure are you about your revenue model right now?",
+   talk:"Could you show someone numbers today?",
+   a:[["Very. We have numbers",{N:1,F:1}],["Kind of. We have a strong hunch",{T:1}],["Not yet. That’s what we need to test",{T:2}]],
+   why:"The reading’s bottom line: pick a structure for operational reasons, not for sustainability. Either status can earn most kinds of revenue, and a fiscal sponsor lets you soft-launch before deciding."},
+  {q:"Pick the line for your About page.",
+   talk:"Read each one out loud. Which feels true?",
+   a:[["Owned by no one, accountable to everyone",{N:2}],["Independently owned and operated",{F:2}],["A fiscally sponsored project",{T:2}]],
+   why:"Myth check: nonprofit newsrooms are businesses with staff and budgets, and many for-profit independents care deeply about their community. The real differences are ownership, control and what you’re allowed to do."}
+];
+
+function fresh(){ return {screen:"start", team:"", i:0, answers:[], reflect:{agree:"", fits:"", doesnt:"", verify:""}}; }
+var S; try { S = JSON.parse(localStorage.getItem(KEY)) || fresh(); } catch(e){ S = fresh(); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+var app = document.getElementById("app");
+var LETTERS = "ABCD";
+
+function tally(){
+  var t = {N:0,F:0,T:0};
+  S.answers.forEach(function(ai,qi){ if (ai==null) return; var w = Q[qi].a[ai][1]; for (var k in w) t[k]+=w[k]; });
+  return t;
+}
+function ranking(){
+  var t = tally(), sum = t.N+t.F+t.T || 1;
+  return ["N","F","T"].map(function(k){ return {k:k, pts:t[k], pct:Math.round(100*t[k]/sum)}; })
+    .sort(function(a,b){ return b.pts-a.pts || (a.k==="T"?-1:b.k==="T"?1:0); });
+}
+
+/* ---------- screens ---------- */
+function start(){
+  return '<section class="hero">'+
+    '<span class="stamp">Team quiz · about 10 minutes</span>'+
+    '<h1>Which news startup structure is your team?</h1>'+
+    '<p>Nonprofit, for-profit, or not ready to choose? Answer ten questions about your venture and find out which fits. There’s no wrong result, but you’ll have to defend yours.</p>'+
+    '<div class="how"><strong>How to play</strong><ol>'+
+      '<li>Gather around one screen.</li>'+
+      '<li>Read each question out loud and talk it over before anyone taps an answer.</li>'+
+      '<li>After you pick, read the note from the reading together.</li>'+
+      '<li>At the end, decide whether you agree with your result, and say why.</li></ol></div>'+
+    '<label class="field"><span>Team or venture name</span><input type="text" id="team" value="'+esc(S.team)+'" autocomplete="off"></label>'+
+    '<button class="btn" id="begin">Start the quiz</button>'+
+    '<p class="src">Based on Jo Ellen Green Kaiser, “Nonprofit or for-profit — which model is right for your news organization?” LION Publishers, 2021.</p>'+
+  '</section>';
+}
+
+function question(){
+  var i = S.i, q = Q[i], pick = S.answers[i];
+  var done = pick != null;
+  return '<div class="progress"><span>Question '+(i+1)+' of '+Q.length+'</span><div class="track"><div class="fill" style="width:'+((i+(done?1:0))/Q.length*100)+'%"></div></div></div>'+
+  '<section class="q">'+
+    '<h2 id="qh" tabindex="-1">'+esc(q.q)+'</h2>'+
+    '<p class="talk"><b>Talk it over:</b> <span>'+esc(q.talk)+'</span></p>'+
+    '<div class="answers'+(done?' picked':'')+'" role="radiogroup" aria-labelledby="qh">'+
+      q.a.map(function(a,ai){
+        return '<button class="ans" role="radio" aria-checked="'+(pick===ai)+'" data-a="'+ai+'"><span class="key">'+LETTERS[ai]+'</span>'+esc(a[0])+'</button>';
+      }).join("")+
+    '</div>'+
+    (done ? '<div class="why"><h3>From the reading</h3><p>'+esc(q.why)+'</p></div>' : '')+
+    '<div class="qnav">'+
+      '<button class="linkbtn" id="back">'+(i===0?'Back to start':'Previous question')+'</button>'+
+      '<button class="btn" id="next"'+(done?'':' disabled')+'>'+(i===Q.length-1?'See our result':'Next question')+'</button>'+
+    '</div>'+
+  '</section>';
+}
+
+function result(){
+  var r = ranking(), top = r[0], T = TYPES[top.k];
+  var closeCall = r[1].pts > 0 && top.pts - r[1].pts <= 2;
+  var html = '<div class="t-'+top.k+'">'+
+  '<section class="reveal">'+
+    '<p class="pre">'+(S.team?esc(S.team)+', you got…':'You got…')+'</p>'+
+    '<div class="badge" aria-hidden="true">'+T.emoji+'</div>'+
+    '<h1 tabindex="-1" id="rh">'+T.name+'</h1>'+
+    '<p class="structure">'+T.structure+'</p>'+
+    '<p class="blurb">'+T.blurb+'</p>'+
+  '</section>'+
+  '<div class="mix"><h3>Your team’s mix</h3>'+
+    r.map(function(x){ return '<div class="row t-'+x.k+'"><span>'+TYPES[x.k].name.replace("The ","")+'</span><div class="tr"><div class="fl" data-w="'+x.pct+'" style="width:0"></div></div><span class="pc">'+x.pct+'%</span></div>'; }).join("")+
+    (closeCall ? '<p class="close">Close call: you were nearly <strong>'+TYPES[r[1].k].name+'</strong> too. What would tip you one way or the other?</p>' : '')+
+  '</div>'+
+  '<div class="cols">'+
+    '<div class="box gain"><h3>What you gain</h3><ul>'+T.gain.map(function(g){return '<li>'+esc(g)+'</li>';}).join("")+'</ul></div>'+
+    '<div class="box"><h3>What you give up</h3><ul>'+T.give.map(function(g){return '<li>'+esc(g)+'</li>';}).join("")+'</ul></div>'+
+  '</div>'+
+  '<div class="box" style="margin-bottom:14px"><h3>Who’s doing it</h3><p class="like" style="margin:0">'+esc(T.like)+'</p></div>'+
+  '<div class="box"><h3>Before you commit, verify</h3><ul>'+T.verify.map(function(g){return '<li>'+esc(g)+'</li>';}).join("")+'</ul></div>'+
+
+  '<h2 class="section-h">Do you buy it?</h2>'+
+  '<p class="section-p">A quiz can’t know your venture. Your reasoning is what counts, so push back if it got you wrong.</p>'+
+  '<div class="agree" role="group" aria-label="Do you agree with your result?">'+
+    ['Yes, this fits','Partly','No, it got us wrong'].map(function(l){ return '<button aria-pressed="'+(S.reflect.agree===l)+'" data-agree="'+esc(l)+'">'+l+'</button>'; }).join("")+
+  '</div>'+
+  ta("fits","One reason this result fits our venture","Point to something specific: your audience, revenue or team.")+
+  ta("doesnt","What this structure would make harder for us","Name a real tradeoff, or explain why you’d choose differently.")+
+  ta("verify","One fact we need to verify","A rule, cost or assumption you haven’t confirmed yet.")+
+  '<div class="actions"><button class="btn small" id="print">Print or save as PDF</button><button class="btn ghost small" id="download">Download as text</button><button class="btn ghost small" id="copy">Copy</button></div>'+
+  '<p class="msg" id="msg"></p>'+
+  '<details class="recap"><summary>See your answers</summary><ol>'+
+    Q.map(function(q,qi){ var a = S.answers[qi]; return '<li>'+esc(q.q)+'<br><span class="a">'+(a!=null?esc(q.a[a][0]):'Skipped')+'</span></li>'; }).join("")+
+  '</ol><button class="linkbtn" id="redo">Change our answers</button></details>'+
+  '<p class="src">Based on Jo Ellen Green Kaiser, “Nonprofit or for-profit — which model is right for your news organization?” LION Publishers, 2021. Rules and percentages may have changed since; treat them as things to verify.</p>'+
+  '</div>';
+  return html;
+}
+function ta(k,label,hint){
+  return '<label class="field"><span>'+label+'</span><small>'+hint+'</small><textarea rows="3" data-r="'+k+'">'+esc(S.reflect[k])+'</textarea></label>';
+}
+
+function render(focus){
+  document.getElementById("restart").hidden = S.screen==="start";
+  app.innerHTML = S.screen==="start" ? start() : S.screen==="quiz" ? question() : result();
+  if (S.screen==="result"){
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      document.querySelectorAll(".fl").forEach(function(el){ el.style.width = el.dataset.w+"%"; });
+    }); });
+  }
+  if (focus){ var f = document.querySelector(focus); if (f) f.focus({preventScroll:true}); }
+}
+function goScreen(s, focus){ S.screen = s; save(); render(focus); window.scrollTo(0,0); }
+
+/* ---------- export ---------- */
+function sections(){
+  var r = ranking(), T = TYPES[r[0].k];
+  var out = [
+    {h:"Result", rows:[["Team",S.team||"—"],["Result",T.name+" ("+T.structure+")"],["Mix",r.map(function(x){return TYPES[x.k].name.replace("The ","")+" "+x.pct+"%";}).join(", ")]]},
+    {h:"Our response", rows:[["Do we agree?",S.reflect.agree||"—"],["Why it fits",S.reflect.fits||"—"],["What it makes harder",S.reflect.doesnt||"—"],["Fact to verify",S.reflect.verify||"—"]]},
+    {h:"Our answers", rows:Q.map(function(q,i){ var a=S.answers[i]; return [(i+1)+". "+q.q, a!=null?q.a[a][0]:"Skipped"]; })}
+  ];
+  return out;
+}
+function asText(){
+  var L = ["WHICH NEWS STARTUP STRUCTURE IS YOUR TEAM?","JOUR 3385 | "+new Date().toLocaleDateString()];
+  sections().forEach(function(s){ L.push("", s.h.toUpperCase()); s.rows.forEach(function(r){ L.push(r[0]+": "+r[1].trim()); }); });
+  return L.join("\n");
+}
+function buildPrint(){
+  var h = '<h1>Which news startup structure is your team?</h1><p class="k">JOUR 3385 · '+esc(new Date().toLocaleDateString())+'</p>';
+  sections().forEach(function(s){ h += '<h2>'+esc(s.h)+'</h2>'; s.rows.forEach(function(r){ h += '<p><span class="k">'+esc(r[0])+'</span>'+esc(r[1])+'</p>'; }); });
+  document.getElementById("print-record").innerHTML = h;
+}
+
+/* ---------- events ---------- */
+app.addEventListener("input", function(e){
+  if (e.target.id==="team"){ S.team = e.target.value; save(); }
+  if (e.target.dataset.r){ S.reflect[e.target.dataset.r] = e.target.value; save(); }
+});
+document.addEventListener("click", function(e){
+  var b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.a != null){ S.answers[S.i] = +b.dataset.a; save(); render('[data-a="'+b.dataset.a+'"]'); return; }
+  if (b.dataset.agree){ S.reflect.agree = b.dataset.agree; save(); render('[data-agree="'+b.dataset.agree+'"]'); return; }
+  var msg = document.getElementById("msg");
+  switch(b.id){
+    case "begin": S.i = 0; goScreen("quiz","#qh"); break;
+    case "next":
+      if (S.i < Q.length-1){ S.i++; save(); render("#qh"); window.scrollTo(0,0); }
+      else goScreen("result","#rh");
+      break;
+    case "back":
+      if (S.i===0) goScreen("start","#team"); else { S.i--; save(); render("#qh"); }
+      break;
+    case "redo": S.i = 0; goScreen("quiz","#qh"); break;
+    case "restart":
+      if (confirm("Start over? This clears your team’s answers in this browser.")){ S = fresh(); save(); goScreen("start","#team"); }
+      break;
+    case "print": buildPrint(); window.print(); break;
+    case "download":
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([asText()],{type:"text/plain"}));
+      a.download = "structure-quiz-"+((S.team||"team").toLowerCase().replace(/[^a-z0-9]+/g,"-"))+".txt";
+      document.body.appendChild(a); a.click(); a.remove();
+      break;
+    case "copy":
+      (navigator.clipboard ? navigator.clipboard.writeText(asText()) : Promise.reject())
+        .then(function(){ msg.textContent = "Copied."; }, function(){ msg.textContent = "Copy isn’t available here. Use Download as text instead."; });
+      break;
+  }
+});
+document.addEventListener("keydown", function(e){
+  if (S.screen!=="quiz" || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  var n = "abcd".indexOf(e.key.toLowerCase());
+  if (n < 0) n = "1234".indexOf(e.key);
+  if (n > -1 && n < Q[S.i].a.length){ S.answers[S.i] = n; save(); render('[data-a="'+n+'"]'); }
+});
+window.addEventListener("beforeprint", buildPrint);
+render();
+})();
+</script>
+</body>
+</html>
